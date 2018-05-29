@@ -1,2 +1,4 @@
-# csci1113
-C/C++ Programming for Scientists and Engineers at Normandale
+# csci1113 Lectures, Week 1
+## Lecture 1
+
+Compile with ```-Wall``` and it will give you all the warnings
