@@ -1,0 +1,2 @@
+call gccpath.bat
+start &
