@@ -10,17 +10,17 @@ There are different types of data types
 **Integers**  
 char  
 short  
-int  
+*int*  
 long  
 long long  
   
 **Floating-point**  
-float  
+*float*  
 double  
 long double  
   
 **Text**  
-char  
+*char*  
   
 Signed and unsigned, C uses the first part of a number in a signed number to indicate how it is positive or negative. If you always want positive numbers, you can do an unsigned integer.
   
@@ -78,4 +78,15 @@ Java is known for being slow, because it does a whole bunch of stuff. C doesn't 
 ```C
 #include <math.h>
 sqrtf(float); // Takes the square root of the floating point number float
+```
+
+C will not convert things for you, C is not kind, C will not clear out your storage before you start using it for variables. Also you can use specific memory addresses with ```scanf()```
+  
+```C
+scanf("%f",specificMemoryAddress);
+```
+
+There is a way to type cast things
+```C
+m = (float)y1 + (float)y2;
 ```
