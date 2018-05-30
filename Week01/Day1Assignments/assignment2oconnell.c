@@ -1,4 +1,4 @@
-// information.c
+// assignment2oconnell.c
 #include <stdio.h>
 int main(void)                /* a program that prints all of my personal information */
 {
