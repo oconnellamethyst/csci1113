@@ -90,3 +90,72 @@ There is a way to type cast things
 ```C
 m = (float)y1 + (float)y2;
 ```
+
+##Lecture 3
+Preprocessor reads, and other stuff ```#include <stdio.h>```
+```bash
+gcc -E first.c
+```
+This command only does the preprocessor stuff, it shows a bunch of stuff.  
+If you fail to define ```#include <math.h>``` when using ```M_PI``` you'll get an error.  
+
+This is the simplified process  
+.c -> compiler -> .exe  
+
+This is more what's going on  
+.h + .c -> preprocessor -> .o + LIB -> linker -> .exe  
+
+**Operators**
+pg 19 of C.pdf
+```C
+int main()
+{
+	int first, second, sum;
+	first = 11;
+	second = 12;
+	
+	sum = first + second; // Remember, what you name your variables has nothing do to with your code
+	printf("%d + %d = %d\n", first, second, sum);
+	
+	sum = first - second;
+	printf("%d - %d = %d\n", first, second, sum);
+	
+	sum = first * second;
+	printf("%d * %d = %d\n", first, second, sum);
+	
+	sum = first / second;
+	printf("%d / %d = %d\n", first, second, sum);
+}
+```
+
+Operator Precedence is like PEMDAS in C, but it's more detailed. Multiplication and division outrank addition and subtraction. If there's a tie, goes left to right to break the tie. For unary operators, and some other stuff, tie breakers are right to left.  
+
+Information about operators is on C.pdf pg17  
+  
+Fun fact, ```printf()``` converts all floats to doubles, which is why you can use ```%f``` for doubles in ```printf()``` but not in ```scanf()```
+  
+C doesn't do native fractions, if you want fractiony fractions, you'd need to do it something like
+```C
+int numerator, denominator;
+printf("%d / %d", numerator, denominator);
+```
+  
+There's something wrong with this code!
+```C
+int sum;
+sum = (float)first / (float)second;
+```
+It's that sum should be a float, else it will just truncate extra data.  
+Also, this is bad naming, it shouldn't be named sum if it's not a sum, don't confuse your poor junior devs.  
+  
+Data types! They're important yo!
+  
+Also!
+```C
+int main()
+{
+	int i = 7;
+	printf(%d,i++);
+	printf(%d,i);
+}
+```
