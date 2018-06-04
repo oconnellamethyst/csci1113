@@ -1,1 +1,0 @@
-SET PATH=Y:\Dept\MATHCSCI\POLZIN\Lang\Dev-Cpp\MinGW64\bin;%PATH%
