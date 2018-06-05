@@ -113,3 +113,92 @@ If you type ```a2psSrc first.c``` in CLI will turn it into a Postscript file, wh
 You can redirect the input and output functions in CLI ```first > output.txt```  
 Write programs in small pieces.  
 Test will consist of programming snippits (Whiteboard code)  
+
+## Lecture 3
+```C
+for(i = 100; i >= 5; i = i-5)
+```
+This is an example of how to do the exercise from yesterday  
+To aid in completing these exercises, making a flowchart is advisable  
+For example, if you accidentally do something like
+```C
+for(i = 0; i >= 0; i++)
+```
+Doing a flowchart will help you see your mistake before you have an infinitely running program  
+The infinitely running program can only get to 2^31 - 1 before running out of space because our integer has 4 bytes  
+```C
+for( ; i >= 5; ) // This for loop
+while(i >= 5) // is the same as this while loop
+```
+When reading the textbook, read the summary before reading the chapter, and then read it again after the chapter.  
+For some C programs, you'll want to pipe the output to more using ```program | more``` in CLI, like for the sine sampling function in C.pdf 
+Mathematical functions, pg 48, C.pdf
+You can also send it to a file ```program > program.dat```
+There are files that can be used to create graphics
+OpenGL Examples
+```make -f grapher.mak```
+Makes the grapher utility
+We can use this utility to graph our program.dat file
+```Grapher program.dat```
+Sometimes we don't prompt for data so that another program can do the data input for us.  
+But yeah, if it's humans, have some prompts.  
+C has ranking for all the datatypes, floats are more accurate than ints  
+For floats, long doubles are more accurate than doubles are more accurate than floats
+For integers, long longs are more accurate than longs are more accurate than ints are more accurate than shorts are more accurate than chars  
+Doubles are pretty good for any sort of accuracy. If you need to be super accurate, you'd use a long double.  
+Embedded processors, if you use a smaller processor, it's cheaper for the company. And if you're going to write a simple program, you should use the smallest storage location possible.  
+You can use the power function, ```pow(current, 2.0);``` but like, don't if you're trying to optimize, it's more expensive than ```current * current```  
+Computers are working all the time until the power is turned off.  
+  
+**Conditional statements**
+If statement
+```C
+if (i > 0)
+  printf("%d > 0\n", i);
+else
+  printf("%d is not > 0\n, i");
+```
+If statments can be nested.  
+C also has a switch statements, pg 56 C.pdf
+```C
+/* Loop to quit on upper or lower case Q */
+while(ch != 'q' && ch != 'Q'){
+  switch(ch){
+    case 'u':
+    case 'U':
+      printf("Case 'Up' selected.\n", ch);
+      y++;
+      break;
+    case 'd':
+    case 'D':
+       printf("Case 'Down' selected.\n", ch);
+       y--;
+       break;
+    case 'l':
+    case 'L':
+       printf("Case 'Left' selected.\n", ch);
+       x--;
+       break;
+    case 'r':
+    case 'R':
+       printf("Case 'Right' selected.\n", ch);
+       x++;
+       break;
+    default:
+       printf("Invalid choice- '%c'.\n", ch);
+       break;
+}
+```
+There is a difference between single quotes and double quotes, ```'A'``` is a character, ```"A string"``` is a string.  
+While loops want the opposite of a thing to quit, so we can use DeMorgans Law (from digital electronics) to change a thing to it's opposite
+```C
+// Quit:
+// ch == 'Q' || ch == 'q'
+// Change == to != and || to && to get the opposite
+// Go:
+while(ch != 'Q' && ch != 'q')
+```
+This thing can be compact if/else equivalent can be dropped into a statement, like a while loop
+```C
+result = i<0?-i:i; // <true/false>?<true code value>:<false code value>
+```
