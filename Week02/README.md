@@ -114,7 +114,7 @@ You can redirect the input and output functions in CLI ```first > output.txt```
 Write programs in small pieces.  
 Test will consist of programming snippits (Whiteboard code)  
 
-## Lecture 3
+## Lecture 2
 ```C
 for(i = 100; i >= 5; i = i-5)
 ```
@@ -202,3 +202,44 @@ This thing can be compact if/else equivalent can be dropped into a statement, li
 ```C
 result = i<0?-i:i; // <true/false>?<true code value>:<false code value>
 ```
+## Lecture 3
+All of the different data types are different on different computers, it will be the same for all the computers in this class, but different for different computers, so like, a Cray Supercomputer might have all things be 8 bits for fast movement of things.  
+  
+There are different input functions  
+```C
+scanf();
+getchar();
+```
+There are different output functions
+```C
+printf();
+putchar();
+```
+Then there's the processing
+```C
+var1 = 1 + 1;
+var2 = 1 - 1;
+var3 = 1 / 1;
+var4 = 1 * 1;
+var5 = log10(1);
+var6 = sqrt(1);
+```
+
+Keep in mind that printing is very slow. A computer having to print every output will end much longer than a computer just having to print the last possible output.  
+Also that integer math is much faster than floating point math.  
+Also you can convert types, like ```(float)variable``` and ```(int)variable```
+If you are multiplying say, ```2 * 3.5``` the 2 will be type promoted to a float to carry out the multiplication.  
+
+
+C code first passes through the preprocessor, which replaces ```#define``` with their definitions, and uses the information from ```#include```. Things that are generally good to include are the Standard IO functions by doing ```#include <stdio.h>``` and the Math functions by ```#include <math.h>```
+
+There are various relational and logical operators in C just like in Python. Also, loops exist. for and while, and conditional statements if/else and switch. Switch labels need to be integers, (or chars, which are integers). Break statement allows you to leave the switch, it's like a fire alarm. You can use break statements in While loops, but it's bad practice. There's also go-to in C, but that's bad practice for the same reason. Also, remember, for loops check the thing every time, so if you only need to check it once, check it once with an if statement.  
+
+**Functions**
+We have a program on pg 35 of C, and inside the program is the main and the functions. Inside the main, there are boxes for the variables, inside of the functions there are also boxes for variables. Within main there are function calls. The functions take information from main. When a program executes, we ask the program...
+
+IPO diagrams, Input, Processing, Output. So for the pizza function:  
+Output is Area (return value)  
+We shouldn't have PI as a parameter, define it using ```#define```, we input the radius  
+What should we produce with this function? We compute the area and return it in processing.  
+These diagrams can help one plan programs.  
