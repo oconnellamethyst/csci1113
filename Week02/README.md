@@ -243,3 +243,54 @@ Output is Area (return value)
 We shouldn't have PI as a parameter, define it using ```#define```, we input the radius  
 What should we produce with this function? We compute the area and return it in processing.  
 These diagrams can help one plan programs.  
+
+## Lecture 4
+**File IO**
+Sometimes you want to write a program that will save a file that has percistance.
+C has a connection to a file through a file pointer, to use this, put this at the top of main
+```C
+FILE *nameThis;
+```
+Which gives the ability to connect to a file, then open a connection using
+```C
+nameThis = fopen("NameOfFile.txt", "w");
+```
+Then, put stuff in the file using ```fprintf()```
+```C
+fprintf(nameThis, "Let's write this stuff to a file"/n);
+```
+And then you have to "hang up" the connection using ```fclose()```
+```C
+fclose(nameThis);
+```
+Make sure to close files when you're done even though it won't hang your program. Also, just like Python, w, write, overwrites! Be careful! File access modes are found on AppendixC.pdf pg 8  
+C handles line ending nonsense for you!  
+We can use more to see stuff ```more NameOfFile.txt```  
+Also, check the status of fopen to make sure it doesn't equal NULL, because it will return NULL if it fails.  
+C provides a couple of file pointers, stdout stdin stderr, which is what is used with the printf and scanf functions, which can be used in testing fprintf.  
+Redirect stdout with ```>``` and stderr with ```2>```  
+Incrementally develop your code, don't do it all at once! Developing in phases helps with debugging  
+```C
+printf("Enter a: ");
+scanf("%d", &a);
+```
+Test that, and then copy it. Now you know all your code is good.  
+You can use ```compiledCode < nameoffile.txt``` to test your code.  
+The pipe ```|``` creates an active connection, like ```dir | sort | more``` Which gets the directory, sorts the directory, and puts in more so that it can be viewed one screen at a time. You can also have programs talk to eachother.  
+EOF means End of File, which can be used if you want to write a lot of stuff to a file.
+```C
+while(fscanf(nameThis, "%d", &var) == 1){
+}
+```
+All uppercase means #define variables  
+  
+Binary File IO!
+What we've been doing is a lot of file IO with text, but this does it in binary. It's fast, but it's not human readable. Numbers take less space.
+  
+A pointer in C (pg 66 C.pdf) is a data type that can store the addresss of some other storage location. C manages the locations of the variables.
+```C
+int* ptr; // I want the address of a storage location that can hold an integer
+ptr = &i // ptr contains the address of integer i
+printf("i = %d and is at address %p\n", *ptr, ptr);
+```
+Good for total meticulous control of a program! 
