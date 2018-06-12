@@ -82,3 +82,27 @@ There's a function called ```strcpy(var, "A string")``` ```strcpy()``` is like a
 In a production environment, you can't analyze bugs, you have to just fix them. Unlike in academia.  
 In order to use ```strcpy()``` and other string-related functions, you need to initialize it ```#include <string.h>```
 Use whatever tool will make your life easier. Good code is good.  
+## Lecture 2  
+*97 things programmers should know*
+Keep the build clean: don't tolerate warnings from the compiler.  
+Know how to use command line tools, you'll learn more about what the tools are doing. Try writing your own make file. Use open-source tools like gcc.  
+If you're stuck on a coding problem, take a break! Your brain works differently when it's hooked up to a computer. Use pencils.  
+  
+**Arrays** pg 85 C.pdf
+Arrays are a set of storage locations. They are indexed starting at *zero*
+Less than operators can help with the mental gymnastics of starting at zero.
+Create your UX for normies! Not for programmers! Like the code on pg 89 of C.pdf asks for index values, but ads 1 to the index value so that humans who don't start at zero can operate the program.  
+Make sure to typecast things into floats unless you really like integer math!  
+You can typecast something into double using ```(double)```
+Arrays have a fixed size, which can be annoying. There is something called "dynamic memory allocation" we'll learn about later, but for now, we should leave a bit more space than we need in our arrays. pg 91 C.pdf has an example program.  
+Sorting is discussed a lot in CSCI. pg 92 of C.pdf has an example sorting program.  
+<stdlib.h> is the standard library, it has many functions that are important, but don't quite fit. One of these functions is the rand(); which gives a random integer. You can use the modulus to restrict the size of the integers, though, C starts at zero, so if you don't want zeros, you'll have to add one.  
+Donald Knuth, random numbers, computers use algorithms to be random, hard to find a good algorithm. ```rand``` is an algortithm always starts in the same spot. ```srand``` can be used for better randomness by giving the random number generator a seed number like ```srand(21);```
+There's a library ```<time.h>``` has a bunch of time routines, and it can be used to seed ```srand``` for something more random. They don't use this in casinos though, nothing is random in a casino. Read *The Power of Habit*. Using random methods is the Monte Carlo method, the gambler's ruin.  
+Orbital Sciences: what are the odds that everything goes wrong? Test random numbers.  
+Only seed the random number generator once, because computers are fast   
+Piping between C programs can cause cool results, like piping ```|``` between a random number generator program and a program that uses those numbers. Also, saving them and using them.  
+```strcat(var, " Second part of sting");``` The string concatenation function adds a part of a string to an existing string, it's a part of ```<string.h>```
+Write good code! Comment on your code!  
+Arrays and Pointers are closely related. Arrays are large quantities of information. C accesses arrays by address of where they start, b/c speed. pg 98, C.pdf, Arrays are kind of like Python lists, but they are stored like pointers. The address of the starting entry in array list[SIZE] is list. list is a pointer. Arrays can be written like pointers.
+Zero is false so you can do weird stuff like ```white(*dest++ = *src++);``` to copy string, and the while loop stops when the string hits null, ie, perfectly copies the string.  
