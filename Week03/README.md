@@ -105,4 +105,30 @@ Piping between C programs can cause cool results, like piping ```|``` between a 
 ```strcat(var, " Second part of sting");``` The string concatenation function adds a part of a string to an existing string, it's a part of ```<string.h>```
 Write good code! Comment on your code!  
 Arrays and Pointers are closely related. Arrays are large quantities of information. C accesses arrays by address of where they start, b/c speed. pg 98, C.pdf, Arrays are kind of like Python lists, but they are stored like pointers. The address of the starting entry in array list[SIZE] is list. list is a pointer. Arrays can be written like pointers.
-Zero is false so you can do weird stuff like ```white(*dest++ = *src++);``` to copy string, and the while loop stops when the string hits null, ie, perfectly copies the string.  
+Zero is false so you can do weird stuff like ```white(*dest++ = *src++);``` to copy string, and the while loop stops when the string hits null, ie, perfectly copies the string.
+## Lecture 3
+You can create multidimentional arrays. C.pdf pg 103-115  
+```int x[2][3][4];```  
+Multidimensional arrays are sets of sets of storage locations. Thank god for the compiler.  
+Makes it easier to deal in the art of tables.  
+Also, means that multiple variables can be out of a function.  
+```C
+void nameFun(int array[ ])
+```
+You need to keep track of the length of your arrays, C won't do it for you. You should define the multiple dimensions of a multidimensional array though
+```C
+void nameFun(int array[ ][3])
+```
+Arrays are useful for really narrowing it down, like say, if you were trying to aim a bomb :)  
+pg 125, can create a ragged array
+pg 126, gets command line arguments after program is run.
+```a one two three > junk.junk```
+Tosses in the stuff that's not for the CLI.
+in CLI double quotes tells CLI it's a single unit, ie, helps with spaces in things.  
+  
+Storage Classes in C, pg 128
+Local information: variables inside a function, these are Automatic variables, they are not initialized by default.
+Global information: variables outside a function, known to all functions, these are External variables. They are initialized to zero by default. ```extern int w```
+There are also statics, static automatic, and static internal, they exist for the entire duration of the program. Static internal is restricted to the program.
+Dynamic memory, allocated using ```malloc()``` and exists until it's released by ```free()```, accessed by address.
+There are also function scopes.
