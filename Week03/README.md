@@ -132,3 +132,105 @@ Global information: variables outside a function, known to all functions, these 
 There are also statics, static automatic, and static internal, they exist for the entire duration of the program. Static internal is restricted to the program.
 Dynamic memory, allocated using ```malloc()``` and exists until it's released by ```free()```, accessed by address.
 There are also function scopes.
+
+## Lecture 4
+You don't need to use an array for the Assignment  
+Structures, unions, bit operations and dynamic memory allocation
+
+Bit operation can be useful for electrical engineers, but not for many others.  
+
+Up until now we've been working with one data at a time, but usually we want different structures, Structures allows use to take several pieces of data, package them up, and use them as a set, (pg 131 C.pdf)
+
+```C
+struct name{
+  char string[124];
+  long number;
+  double bigMoney;
+};
+
+struct name thisIsOne;
+
+strcpy(name.string, "This is a string"); // name.string is how you access the individual piece of the thing.
+```
+(pg 132, C.pdf)
+
+Arrays are sent by address, We can also do this with structures, but we have to use pointers.
+```sprintf()``` is a function that lests you generate printf functions within your program   
+Send pointers, not functions, pg 138
+```C
+void print_part(struct part* p)
+{
+  printf("Product: %s\n", (*p).name);
+  printf("Part No.: %ld\n", (*p).no);
+  printf("Unit price: %.2f\n", (*p).price);
+  return;
+}
+```
+There's an alternate operator that uses a better format
+```C
+void print_part(struct part* p) /* -> operator simplifies access thru */
+{ /* ... a pointer. */
+  printf("Product: %s\n", p->name);
+  printf("Part No.: %ld\n", p->no);
+  printf("Unit price: %.2f\n", p->price);
+  return;
+}
+```
+pg 150 C.pdf
+  
+We can create enumerated types, means less errors!
+```C
+enum GPA{F, D, C, B, A};
+```
+Unions allow multiple mappings of the same piece of storage, think Pokemon Blue.
+Unions can also be used for byte-wise inspection of storage (pg 160).
+For example, the computer is using Little Endian archetecture for the example on the pg 160.
+There are big endian machines too.  
+  
+```typedef()``` allows you to type less, i.e.
+```C
+typedef struct steve steve;
+```
+Lets you just type steve instead of ```struct steve```
+  
+C has several bit opperators
+```C
+int x = 7; //0...0111
+int y;
+y = x << 2; //0...011100 moves information 2 to the right
+y = x >> 2; //0...001 moves informaiton 2 to the left, it gets chopped
+```
+
+You can use it to turn on and off individual bits like an Electrical Engineer
+```C
+int x;
+x = 1 << 0;
+x = 1 << 3;
+```
+  
+There are also other operators
+```C
+x = ~1 << 3; // NOT = ~
+```
+Remember that this moves bits rather than deletes them, so the code above does something like 1111...0111  
+  
+Bitwise operators  
+```C
+// OR = |
+// AND = &
+// XOR = ^
+// NOT = ~
+```
+  
+Let's say we have a storage location y with the bits 0...100111 and we want to change it so that it is 0...101111, we use
+```y = y | 1 << 3;``` because ```1 << 3``` is ```0...001000```  
+What if we want it off?
+```y = y &~ 1 << 3``` The AND and NOT create ```1...110111```
+What if we want to toggle it, ie, make it the opposite of what it is?
+```y = y ^ 1 << 3```  
+  
+Dynamic Memory Allocation
+Call ```malloc``` you have to close it using ```free```
+We just get a pointer to track malloced storage. pg 174
+  
+We'll be using C++, Straustrom wanted to model certain things, to get fast performance.
