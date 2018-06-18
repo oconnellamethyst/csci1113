@@ -1,50 +1,60 @@
-/*     FILE: logarithms.c     */
+/*     FILE: assignment6oconnell.c     */
 
 /*
-   Gets the natural log and the log base 10 of the number 75, checks using the power function to show that it is correct.
+   Takes a file with a bunch of numbers in it and computes things
 */
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
-int main( )
+int* sort(int* file);
+
+int main(int argc, char *argv[])
 {
-  float number = 75;
-  float natLog, comLog;
-  float inverNatLog, inverComLog;
-
-  natLog = log(number);
-  comLog = log10(number);
-  inverNatLog = exp(natLog);
-  inverComLog = pow(10,comLog);
+  FILE *numbers;
+  numbers = fopen(argv[0], "r");
   
-  printf("The natural log of %f is %f, and the common log of %f is %f.\n",number,natLog,number,comLog);
+  int numArray, great, i;
+  numArray = sort(numbers);
+  numArray[0] = great;
   
-  if (inverNatLog == number) // Because of the loss of precision of a computer, and e being an irrational number, even though mathematically it is equivalent, it is not equivalent in C.
-  // If I wanted it to be more of a human approximation, I would replace if(inverNatLog == number) with if((int)inverNatLog == (int)number), however, this would come with a loss of precision
-  {
-  	printf("e to the power of the natural log of %f is %f, which equals %f.\n",number,inverNatLog,number);
-  }
-  else
-  {
-  	printf("e to the power of the natural log of %f is %f, which does not quite equal %f.\n",number,inverNatLog,number);
+  
+  printf("The highest value is %d\n",great);
+  
+  for(i = 0, i<sizeof(numArray), i++){
+  	
   }
   
-  if (inverComLog == number)
-  {
-  	printf("10 to the power of the common log of %f is %f, which equals %f.\n",number,inverComLog,number);
-  }
-  else
-  {
-  	printf("10 to the power of the common log of %f is %f, which does not quite equal %f.\n",number,inverComLog,number);
-  }
   
   return 0;
 }
 
-/*    OUTPUT: logarithms.c
+int* sort(int* file){ // This is the selection sort program select.c adapted for this program
+  int scores[] = file;
+  int size = sizeof(scores);
+  int n, pass, item, position, temp;
 
-    The natural log of 75.000000 is 4.317488, and the common log of 75.000000 is 1.875061.
-    e to the power of the natural log of 75.000000 is 75.000008, which does not quite equal 75.000000.
-    10 to the power of the common log of 75.000000 is 75.000000, which equals 75.000000.
+  /* Get number of values to read */
+  printf("Please enter number of scores (%d or less): ", size);
+  scanf("%d", &n);
+
+    /* Selection-sort the values read in. */
+    for(pass=0; pass<n-1; pass++){
+      position = pass;
+      for(item=pass+1; item<n; item++)
+        if (scores[position] < scores[item])
+          position = item;
+      if(pass != position){
+        temp = scores[pass];
+        scores[pass] = scores[position];
+        scores[position] = temp;
+      }
+    }
+
+    return &scores;
+}
+
+/*    OUTPUT: assignment6oconnell.c
+
   
 */
