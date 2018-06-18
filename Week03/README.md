@@ -121,8 +121,10 @@ void nameFun(int array[ ][3])
 ```
 Arrays are useful for really narrowing it down, like say, if you were trying to aim a bomb :)  
 pg 125, can create a ragged array
-pg 126, gets command line arguments after program is run.
-```a one two three > junk.junk```
+pg 126, gets command line arguments after program is run.  
+```C
+a one two three > junk.junk
+```
 Tosses in the stuff that's not for the CLI.
 in CLI double quotes tells CLI it's a single unit, ie, helps with spaces in things.  
   
@@ -155,7 +157,7 @@ strcpy(name.string, "This is a string"); // name.string is how you access the in
 (pg 132, C.pdf)
 
 Arrays are sent by address, We can also do this with structures, but we have to use pointers.
-```sprintf()``` is a function that lests you generate printf functions within your program   
+The function ```sprintf()``` is a function that lests you generate printf functions within your program   
 Send pointers, not functions, pg 138
 ```C
 void print_part(struct part* p)
@@ -167,6 +169,7 @@ void print_part(struct part* p)
 }
 ```
 There's an alternate operator that uses a better format
+
 ```C
 void print_part(struct part* p) /* -> operator simplifies access thru */
 { /* ... a pointer. */
@@ -179,18 +182,22 @@ void print_part(struct part* p) /* -> operator simplifies access thru */
 pg 150 C.pdf
   
 We can create enumerated types, means less errors!
+
 ```C
 enum GPA{F, D, C, B, A};
 ```
+
 Unions allow multiple mappings of the same piece of storage, think Pokemon Blue.
 Unions can also be used for byte-wise inspection of storage (pg 160).
 For example, the computer is using Little Endian archetecture for the example on the pg 160.
 There are big endian machines too.  
   
-```typedef()``` allows you to type less, i.e.
+The function ```typedef()``` allows you to type less, i.e.
+
 ```C
 typedef struct steve steve;
 ```
+
 Lets you just type steve instead of ```struct steve```
   
 C has several bit opperators
