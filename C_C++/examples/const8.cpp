@@ -14,7 +14,7 @@ class COMPLEX{
   double Im;
 public:
   void print( ) const;
-  COMPLEX Mult(const COMPLEX & b) const;
+  COMPLEX Mult(const COMPLEX b) const;
     
   COMPLEX(double r, double im);
   COMPLEX( )
@@ -28,7 +28,7 @@ public:
   }
 };
 
-COMPLEX COMPLEX::Mult(const COMPLEX & b) const
+COMPLEX COMPLEX::Mult(const COMPLEX b) const
 {
   COMPLEX result;
 

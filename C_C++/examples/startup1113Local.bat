@@ -8,8 +8,8 @@ start Y:\Dept\MATHCSCI\POLZIN\Lang\Dev-Cpp\devcpp
 xcopy/Y Y:\dept\mathcsci\polzin\1113\notes\*.* "%USERPROFILE%\C_C++\*.*" /s
 REM xcopy/Y Y:\dept\mathcsci\polzin\1113\startup\startup1113.bat %USERPROFILE%\startup1113.bat
 
-start %USERPROFILE%\C_C++\C.pdf
-start %USERPROFILE%\C_C++\AppendixC.pdf
+start %USERPROFILE%\C_C++\C++.pdf
+start %USERPROFILE%\C_C++\AppendixC++.pdf
 
 cd %USERPROFILE%
 md %USERPROFILE%\C_C++\examples
