@@ -138,4 +138,130 @@ public:
 ```
 An integer times a double is a double.
 
+## Lecture 4
+Operator Overloading is making our data work with normal operators.  
+--  
+Inlining functions: When we make a function, we treat it like a separate region of our code, we have a main, and main might call that code. Inlining is different, inlining takes the function call and replaces it with the code of the function. Think of it like a small printing company vs a large printing company.   
+--  
+```C++
+COMPLEX COMPLEX::operator*(const COMPLEX & b) const
+{
+  COMPLEX result;
+  result.Re = Re*b.Re - Im*b.Im;
+  result.Im = Re*b.Im + Im*b.Re;
+  return result;
+}
+```
+For operator overloading, you have to do code to define both orders, ie, separate code for 6.0 * COMPLEX and COMPLEX * 6.0
+```C++
+COMPLEX COMPLEX::operator*(const double &x) const // COMPLEX * 6.0
+{
+  COMPLEX result;
+  
+  result.Re = Re*x;
+  result.Im = Im*x;
+  
+  return result;
+}
+
+COMPLEX operator*(const double &x, const COMPLEX &c)  // 6.0 * COMPLEX, this doesn't work yet because we don't have permission to access the double times complex, we have to give it permission
+{
+  COMPLEX result;
+  
+  result.Re = c.Re*x;
+  result.Im = c.Im*x;
+  
+  return result;
+}
+```
+How do we get permission then? Friends! pg 141
+```C++
+class COMPLEX{
+  double Re;
+  double Im;
+public:
+  void print( ) const;
+  COMPLEX operator*(const COMPLEX & b) const;
+  COMPLEX operator*(const double &x) const;
+  friend COMPLEX operator*(const double &x, const COMPLEX &c); // We name it as a friend up here, and now our code from before works
+```
+We shouldn't actually do it that way though, we should do it like this
+```C++
+COMPLEX operator*(const double &x, const COMPLEX &c)
+{
+  return (c * x);
+}
+```
+That way, all the hard work of multiplying is in that one function, so if you need to make changes.  
+When we print, we usually do so using ```cout << i;``` but what if we want to use this operator to print our complex numbers?  
+Thing's well have to deal with is that cout is not our class, so we'll have to make it a friend. Also, we've got two of those bois. And so...
+```C++
+class COMPLEX{
+  double Re;
+  double Im;
+public:
+  COMPLEX(double r, double im);
+  COMPLEX(const COMPLEX &c)
+  {
+    Re = c.Re;
+    Im = c.Im;
+  }
+  COMPLEX( )
+  {
+    Re = Im = 0;
+  }
+  ~COMPLEX( )
+  {
+  }
+
+  COMPLEX operator*(const COMPLEX & b) const;
+  COMPLEX operator*(const double &x) const;
+  friend COMPLEX operator*(const double &x, const COMPLEX &c);
+
+  COMPLEX operator-(const COMPLEX &b) const;
+  COMPLEX operator-( ) const;
+
+  friend ostream& operator<<(ostream&,const COMPLEX &); // THIS BOI! We use osteam so that it works with all of the o functions, not just cout, we make the complex constant because we don't want it to change while inside, we use the & so that we don't need to create a new variable just to throw it away
+};
+```
+With our class complex, we're trying to pretend that our class was in C++ all along, and that's hard, but also cool.  
+Terrence Par, worked at U of M, writes compiler building tools. "Why spend five days doing by hand what you can spend five years automating." A great example is Otto. Otto is written in pearl. Larry Wall, in charge of computers before good internet, like a soupcan with a string. Developed Perl to talk between systems, present it in a terse format. Perl does the heavy lifting from Otto, disassembles the emails and reassembles them. Larry Wall tutorial, email disassembly book, two lines in Perl.    
+"I'll do that later" -Programmer for "I'll do it never"  
+```C++
+ostream & operator<<(ostream& os, const COMPLEX & c)
+{
+  os << "(" << c.Re << " + " << c.Im << "i)" ;
+  return os; // Should return os
+}
+```
+When we overload operators, we inherit their precidence.
+Yo, when we make a function return statement void, we basically send it all to the void. Ya feel?
+The parameter should be a reference and the return value should be a reference.  
+  
+**File I/O**, streams, cin cout a connection, sending bytes in, sending bytes out. fstream is used for file I/O, pg 162
+```C++
+/* FILE: File1.cpp */
+// Write some output to a file.
+#include <fstream>
+
+using std::ofstream;
+using std::endl;
+int main( )
+
+{
+  ofstream outs; // Makes the stream, outs is whatever you want to call it
+  
+  outs.open("File1.out"); // Makes the file
+  
+  outs << "Hello world!" << endl; // Adds to the file
+  
+  outs.close( );  // Closes the file
+}
+```
+pg 164
+```C++
+  os.unsetf(ios::showpos); // Makes our complex numbers look more natural.
+```
+Inheritance, you can take a class and work on top of it, compiler is paying attention, lets you treat them as similar. pg 166  
+  
      
