@@ -5,7 +5,7 @@
 
 #include <iostream>
 using std::ostream;
-#include "..\glut.h"
+#include "GL/glut.h"
 
 class shape{
     int x,y;

@@ -390,3 +390,485 @@ Java does this polymorphism automatically, but that makes it slow.
 You can write code like that on pg 200, so that whether the thing is a circle or a point is unknown and the code still works.  
 Shapes6Test, nobody said that a triangle is a shape because of how triangle is done.  
 We use putto operator, pg 217, sets up call to call the right print.
+
+## Lecture 2
+Open GLL
+```C++
+/*     FILE: ./shapes7/shape.cpp     */
+
+#include "shape.h"
+
+shape::shape(int xvalue, int yvalue)
+{
+  setShape(xvalue,yvalue);
+}
+
+void shape::setX(int new_x)
+{
+  x = new_x;
+}
+
+void shape::setY(int new_y)
+{
+  y = new_y;
+}
+
+int shape::getX( ) const
+{
+  return x;
+}
+
+int shape::getY( ) const
+{
+  return y;
+}
+
+void shape::setShape(int new_x, int new_y)
+{
+  x = new_x;
+  y = new_y;
+}
+
+void shape::print(ostream & os) const
+{
+  os << "(" << x << "," << y << ")";
+}
+
+ostream & operator<<(ostream & os, const shape& s)
+{
+  s.print(os);
+  return os;
+}
+```
+```C++
+/*     FILE: ./shapes7/shape.h     */
+
+#ifndef _shape_h
+#define _shape_h
+
+#include <iostream>
+using std::ostream;
+#include "..\glut.h"
+
+class shape{
+    int x,y;
+
+  public:
+    shape( )
+    { x=y=0;}
+    shape(int xvalue, int yvalue);
+    
+    void setShape(int new_x, int new_y);
+    void setX(int new_x);
+    void setY(int new_y);
+    int getX( ) const;
+    int getY( ) const;
+    
+    virtual void move(int x, int y) = 0;
+    virtual void shift(int dx, int dy) = 0;
+    virtual void draw( ) = 0; // This is abstract class because there will be no method avaliable for this.
+    virtual void rotate(double r) = 0;
+
+    virtual void print(ostream&)const;
+    friend ostream & operator<<(ostream & os, const shape& s);
+};
+#endif
+```
+```C++
+/*     FILE: ./shapes7/point.h     */
+
+#ifndef _point_h
+#define _point_h
+
+#include <iostream>
+#include "shape.h"
+
+class point: public shape{
+
+  public:
+    point( ):shape( )
+    { }
+    point(int xvalue, int yvalue);
+    
+    void setPoint(int new_x, int new_y);
+    
+    void move(int x, int y);
+    void shift(int dx, int dy);
+    void rotate(double r);
+    void draw( ); // Point might produce a draw function
+    
+};
+#endif
+```
+```C++
+/*     FILE: ./shapes7/point.cpp     */
+
+#include "point.h"
+
+point::point(int xvalue, int yvalue):shape(xvalue,yvalue)
+{
+
+}
+
+void point::setPoint(int new_x, int new_y)
+{
+  setShape(new_x, new_y);
+}
+
+void point::move(int x, int y)
+{
+  setX(x);
+  setY(y);
+}
+
+void point::shift(int dx, int dy)
+{
+  setX(getX( )+dx);
+  setY(getY( )+dy);
+}
+
+void point::rotate(double r)
+{
+  
+}
+
+void point::draw( ) // Simple drawing function, uses points, draws two pixels, makes a line between them, draws basically an x on the screen. Graphics systems tend to have inverted coordinates because history, y increases down. 
+{
+  glVertex2i(getX( )-2,getY( )-2);
+  glVertex2i(getX( )+2,getY( )+2);
+
+  glVertex2i(getX( )-2,getY( )+2);
+  glVertex2i(getX( )+2,getY( )-2);
+
+}
+```
+```BASH
+make -f hatch.mak
+hatch
+```
+Draws a picture.
+```C++
+/*     FILE: ./shapes7/triangle.cpp     */
+
+#include "triangle.h"
+
+triangle::triangle(point p1, point p2, point p3)
+{
+  setTriangle(p1.getX( ), p1.getY( ), p2.getX( ), p2.getY( ), p3.getX( ), p3.getY( ));
+}
+
+triangle::triangle(int px1, int py1, int px2, int py2, int px3, int py3)
+{
+  setTriangle(px1, py1, px2, py2, px3, py3);
+}
+
+void triangle::setTriangle( int px1, int py1, int px2, int py2, int px3, int py3)
+{
+  v1 = point(px1, py1);
+  v2 = point(px2, py2);
+  v3 = point(px3, py3);
+}
+    
+point triangle::getVertex1( ) const
+{
+  return v1;
+}
+    
+point triangle::getVertex2( ) const
+{
+  return v2;
+}
+
+point triangle::getVertex3( ) const
+{
+  return v3;
+}
+
+void triangle::setVertex1(point p)
+{
+  v1 = p;
+}
+   
+void triangle::setVertex2(point p)
+{
+  v2 = p;
+}
+
+void triangle::setVertex3(point p)
+{
+  v3 = p;
+}
+
+void triangle::draw( ) // Draws lines between verticies to make a triangle picture
+{
+  point p1 = getVertex1( );
+  point p2 = getVertex2( );
+
+  glVertex2i(p1.getX( ), p1.getY( ));
+  glVertex2i(p2.getX( ), p2.getY( ));
+
+  p1 = getVertex2( );
+  p2 = getVertex3( );
+
+  glVertex2i(p1.getX( ), p1.getY( ));
+  glVertex2i(p2.getX( ), p2.getY( ));
+
+  p1 = getVertex3( );
+  p2 = getVertex1( );
+
+  glVertex2i(p1.getX( ), p1.getY( ));
+  glVertex2i(p2.getX( ), p2.getY( ));
+
+}
+
+void triangle::print(ostream & os) const
+{
+  os << v1 << " " << v2 << " " << v3;
+}
+
+ostream & operator<<(ostream & os, const triangle& t)
+{
+  t.print(os);
+  return os;
+}
+```
+```C++
+/*     FILE: hatch.cpp     */
+
+#include <stdlib.h>
+#include "glut.h"
+#include "shapes7\point.h"
+#include "shapes7\triangle.h"
+#include "shapes7\circle.h"
+
+int scrWidth = 500, scrHeight = 500;
+point p(25,50);
+triangle t(100,100,100,150,150,150);
+circle c(300,195,100);
+void myinit( );
+void display( );
+void reshape(int, int);
+void hatch( );
+
+void myinit( )
+{
+  glClearColor(1.,1.,1.,1.);          /* white background */
+  glColor3f(0.,0.,0.);               /* black foreground */
+  glShadeModel(GL_FLAT);
+  /* set up viewing scrWidth x scrHeight window with origin lower left */
+  glViewport(0,0,scrWidth,scrHeight);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity( );
+  gluOrtho2D(-(GLdouble)scrWidth/2,(GLdouble)scrWidth/2,-(GLdouble)scrHeight/2,(GLdouble)scrHeight/2);     /* ensure aspect ratio */
+  glMatrixMode(GL_MODELVIEW);
+}
+                  
+void display( ) // Very compact function
+{
+  glClear(GL_COLOR_BUFFER_BIT);
+                 
+  glBegin(GL_LINES); // I'm interested in drawing lines
+                 
+  hatch( ); // We're going to draw hatch marks
+  p.draw( ); // We're going to draw a point
+  t.draw( ); // A triangle
+  c.draw( ); // And a circle
+                 
+  glEnd( );
+                 
+  glFlush( );
+
+}
+
+void hatch( ) // Function that makes the hatch marks Draws big hatches every 25px, small hatches every 4
+{
+  int halfHeight = scrHeight/2;
+  int halfWidth = scrWidth/2;
+  for(int i=5; i < scrHeight; i+=5){ 
+    glVertex2i(0,i);
+    glVertex2i(4,i);
+                  
+    if(i%25 ==0){
+	  glVertex2i(0,i);
+      glVertex2i(10,i);
+    }
+  }
+  for(int i=5; i < scrWidth; i+=5){ 
+    glVertex2i(i,0);
+    glVertex2i(i,4);
+                  
+    if(i%25 ==0){
+	  glVertex2i(i,0);
+      glVertex2i(i,10);
+    }
+  }
+}
+
+void reshape(int nescrWidth, int nescrHeight) // What we should do when the window changes sizes, yo, now the screen is bigger
+{
+  scrHeight = nescrHeight;
+  scrWidth = nescrWidth;
+  glViewport(0,0,scrWidth,scrHeight);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity( );
+  gluOrtho2D(0.,(GLdouble)scrWidth,0.,(GLdouble)scrHeight);
+  glMatrixMode(GL_MODELVIEW);
+  display( );
+}
+
+int main(int argc, char** argv)
+{
+  glutInit(&argc,argv);
+  glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+  glutInitWindowSize(scrWidth,scrHeight);
+  glutCreateWindow("Hatch");
+  glutDisplayFunc(display); // Display function
+  myinit( );
+  glutReshapeFunc(reshape); // What should happen if someone stretches out the window 
+  glutMainLoop( );
+                  
+  return 0;
+}
+
+
+/*    OUTPUT: hatch.cpp
+
+
+*/
+```
+```BASH
+make -f hatch2.mak
+# Make files do less work when things have already been compiled
+```
+```C++
+/*     FILE: hatch2.cpp     */
+
+#include <stdlib.h>
+#include "glut.h"
+#include "shapes7\point.h"
+#include "shapes7\triangle.h"
+#include "shapes7\circle.h"
+              
+int scrWidth = 500, scrHeight = 500;
+point p(25,50);
+triangle t(100,100,100,150,150,150);
+triangle t2(-100,-100,-100,150,150,0);
+circle c(300,195,100);
+circle c2(0,0,50);
+void myinit( );
+void display( );
+void reshape(int, int);
+void hatch( );
+
+void myinit( )
+{
+  glClearColor(1.,1.,1.,1.);          /* white background */
+  glColor3f(0.,0.,0.);                /* black foreground */
+  glShadeModel(GL_FLAT);
+  /* set up viewing scrWidth x scrHeight window with origin lower left */
+  glViewport(0,0,scrWidth,scrHeight);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity( );
+  gluOrtho2D(-(GLdouble)scrWidth/2,(GLdouble)scrWidth/2,-(GLdouble)scrHeight/2,(GLdouble)scrHeight/2);     /* ensure aspect ratio */
+  glMatrixMode(GL_MODELVIEW);
+}
+                  
+void display( )
+{
+  glClear(GL_COLOR_BUFFER_BIT);
+                 
+  glBegin(GL_LINES);
+                 
+  hatch( );
+  p.draw( );
+  t.draw( );
+  c.draw( );
+  t2.draw( );
+  c2.draw( );
+                 
+  glEnd( );
+                 
+  glFlush( );
+
+}
+
+void hatch( )
+{
+  int halfHeight = scrHeight/2;
+  int halfWidth = scrWidth/2;
+  for(int i=5; i < halfHeight; i+=5){ 
+    glVertex2i(-2,i);
+    glVertex2i(2,i);
+                  
+    glVertex2i(-2,-i);
+    glVertex2i(2,-i);
+                  
+    if(i%25 ==0){
+	  glVertex2i(-5,i);
+      glVertex2i(5,i);
+	  glVertex2i(-5,-i);
+      glVertex2i(5,-i);
+    }
+  }
+  for(int i=5; i < halfWidth; i+=5){ 
+    glVertex2i(i,-2);
+    glVertex2i(i,2);
+    
+    glVertex2i(-i,-2);
+    glVertex2i(-i,2);
+                  
+    if(i%25 ==0){
+      glVertex2i(i,-5);
+      glVertex2i(i,5);
+      glVertex2i(-i,-5);
+      glVertex2i(-i,5);
+    }
+  } 
+}
+
+void reshape(int nescrWidth, int nescrHeight)
+{
+  scrHeight = nescrHeight;
+  scrWidth = nescrWidth;
+  glViewport(0,0,scrWidth,scrHeight);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity( );
+  gluOrtho2D(-(GLdouble)scrWidth/2,(GLdouble)scrWidth/2,-(GLdouble)scrHeight/2,(GLdouble)scrHeight/2);
+  glMatrixMode(GL_MODELVIEW);
+  display( );
+}
+
+int main(int argc, char** argv)
+{
+  glutInit(&argc,argv);
+  glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+  glutInitWindowSize(scrWidth,scrHeight);
+  glutCreateWindow("Hatch 2");
+  glutDisplayFunc(display);
+  myinit( );
+  glutReshapeFunc(reshape); 
+  glutMainLoop( );
+                  
+  return 0;
+}
+
+
+/*    OUTPUT: hatch2.cpp
+
+
+*/
+```
+  
+For overloading opperators, we want things to act things to work like they work normally, you don't want to have to explain everything to the nooblets.  
+Methods are functions in classes  
+Attributes are data members in classes  
+Encaspsulation, all of this stuff is smushed together and packaged, it's almost as if it's part of C++  
+Information hiding, save yourself from your own nooblet tendancies.  
+Code reuse and maintenance, an example of this is inheritance, classes make it really easy to reuse code. Maitenance, there is no perfect code, eventually something will go wrong in your code, it's just a matter of how and when.  
+Constructor, the class name matches the name of the method. Constructs things.  
+new is like malloc.  
+Assignment opperator like copy constructor, sometimes you need to overload it, especially if there are pointers involved like with strings.  
+Friend functions, give the class the ability to make acceptions. Really only use them for overloading ostream.  
+Composition (the triangle), vs inheritance (circle).  
+Function templates, you can create template classes, it generates things.  
+(File I/O isn't on the test, it's on page 162, if you understand C I/O, you pretty much understand C++ I/O)
