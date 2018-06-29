@@ -1,10 +1,7 @@
-/*     FILE: const4.cpp     */
+/*     FILE: assignment7oconnell.cpp     */
 
 /*
-   Access to the invoking object is provided implicitly
-   thru a pointer named "this".
-   
-   "this" can be used explicitly.
+   Program for doing complex math.
    
    based on const4.cpp
 */
@@ -13,19 +10,43 @@
 using namespace std;
 
 class COMPLEX{ 
+  friend ostream& operator<<(ostream& ostr, const COMPLEX&);
+  
+  friend COMPLEX operator*(const double &x, const COMPLEX & b);
+  friend COMPLEX operator+(const double &x, const COMPLEX & b);
+  friend COMPLEX operator-(const double &x, const COMPLEX & b);
+  friend COMPLEX operator/(const double &x, const COMPLEX & b);
+  
   double Re;
   double Im;
 public:
-  COMPLEX Mult(const COMPLEX & b);
-  COMPLEX Add(const COMPLEX & b);
-  COMPLEX Subt(const COMPLEX & b);
-  void print( );
-  void print2( );
+  const COMPLEX operator*(const COMPLEX & b);
+  const COMPLEX operator+(const COMPLEX & b);
+  const COMPLEX operator-(const COMPLEX & b);
+  const COMPLEX operator/(const COMPLEX & b);
+  
+  const COMPLEX operator*(const double &x);
+  const COMPLEX operator+(const double &x);
+  const COMPLEX operator-(const double &x);
+  const COMPLEX operator/(const double &x);
+  
+  static const COMPLEX creator();
   
   COMPLEX(double r=0, double im=0) : Re(r) , Im(im) {} // Constructor that defaults to zeroes
 };
 
-COMPLEX COMPLEX::Mult(const COMPLEX & b)
+/* You could say there's... a method to the madness? */
+
+const COMPLEX COMPLEX::creator(){ // Method that creates complexes
+  COMPLEX result(0,0);
+  cout << "Type the real part of your number" << endl;
+  cin >> result.Re;
+  cout << "Type the imaginary part of your number" << endl;
+  cin >> result.Im;
+  return result;
+}
+
+const COMPLEX COMPLEX::operator*(const COMPLEX & b) // Multiplying method
 {
   COMPLEX result(0,0);
 
@@ -35,7 +56,7 @@ COMPLEX COMPLEX::Mult(const COMPLEX & b)
   return result;
 }
 
-COMPLEX COMPLEX::Add(const COMPLEX & b) // Adding method
+const COMPLEX COMPLEX::operator+(const COMPLEX & b) // Adding method
 {
   COMPLEX result(0,0);
 
@@ -45,7 +66,7 @@ COMPLEX COMPLEX::Add(const COMPLEX & b) // Adding method
   return result;
 }
 
-COMPLEX COMPLEX::Subt(const COMPLEX & b) //Subtracting method
+const COMPLEX COMPLEX::operator-(const COMPLEX & b) //Subtracting method
 {
   COMPLEX result(0,0);
 
@@ -55,47 +76,167 @@ COMPLEX COMPLEX::Subt(const COMPLEX & b) //Subtracting method
   return result;
 }
 
-void COMPLEX::print( )
+const COMPLEX COMPLEX::operator/(const COMPLEX & b) // Dividing method
 {
-  cout << "(" << Re << " + " << Im << "i)" ;
+  COMPLEX result(0,0); 
+
+  result.Re = ((Re*b.Re)+(Im*b.Im))/((b.Re*b.Re)+(b.Im*b.Im));
+  result.Im = ((Im*b.Re)+(Re*b.Im))/((b.Re*b.Re)+(b.Im*b.Im));
+
+  return result;
 }
 
-void COMPLEX::print2( )
+
+COMPLEX operator*(const double &x, const COMPLEX &b) // Multiplying w/ doubles
 {
-  cout << "(" << this->Re << " + " << this->Im << "i)" ;
+  COMPLEX result(0,0); 
+
+  result.Re = (b.Re*x);
+  result.Im = (b.Im*x);
+
+  return result;
+}
+
+COMPLEX operator+(const double &x, const COMPLEX &b) // Adding with doubles
+{
+  COMPLEX result(0,0); 
+
+  result.Re = b.Re + x;
+  result.Im = b.Im;
+
+  return result;
+}
+
+COMPLEX operator/(const double &x, const COMPLEX &b) // Dividing with doubles
+{
+  COMPLEX result(0,0); 
+
+  result.Re = (x*b.Re)/((b.Re*b.Re)+(b.Im*b.Im)); //(ac)/(cc+dd)
+  result.Im = (-x*b.Im)/((b.Re*b.Re)+(b.Im*b.Im)); //(-ad)/(cc+dd)
+
+  return result;
+}
+
+COMPLEX operator-(const double &x, const COMPLEX &b) // Subtracting with doubles
+{
+  COMPLEX result(0,0);
+
+  result.Re = x-b.Re;
+  result.Im = -b.Im;
+
+  return result;
+}
+
+const COMPLEX COMPLEX::operator*(const double &x) // * w/ D
+{
+  COMPLEX result(0,0); 
+
+  result.Re = (Re*x);
+  result.Im = (Im*x);
+
+  return result;
+}
+
+const COMPLEX COMPLEX::operator+(const double &x) // + w/ D
+{
+  COMPLEX result(0,0); 
+
+  result.Re = Re + x;
+  result.Im = Im;
+
+  return result;
+}
+
+const COMPLEX COMPLEX::operator-(const double &x) // - w/ D
+{
+  COMPLEX result(0,0);
+
+  result.Re = Re-x;
+  result.Im = Im;
+
+  return result;
+}
+
+const COMPLEX COMPLEX::operator/(const double &x) // / w/ D
+{
+  COMPLEX result(0,0); 
+
+  result.Re = (Re)/(x);  //(ac)/(cc)
+  result.Im = (Im)/(x);  //(bc)/(cc)
+
+  return result;
+}
+
+ostream& operator<<(ostream& ostr, const COMPLEX & comp)
+{
+  return ostr << "(" << comp.Re << " + " << comp.Im << "i)" ;
 }
 
 int main( )
 {
-  COMPLEX c1(2,3), c2(2,3), cresult;
-
-  cresult = c1.Add(c2);
-
-  cout << "Result of ";
-  c1.print( );
-  cout << " + ";
-  c2.print( );
-  cout << " = ";
-  cresult.print( );
-  cout << endl;
+  COMPLEX result;
+  COMPLEX one, two;
+  double three;
   
-  cresult = c1.Subt(c2);
+  one = COMPLEX::creator();
+  two = COMPLEX::creator();
+  cout << "Give me a number" << endl;
+  cin >> three;
 
-  cout << "Result of ";
-  c1.print2( );
-  cout << " - ";
-  c2.print2( );
-  cout << " = ";
-  cresult.print2( );
-  cout << endl;
+  result = one + two;
+  cout << "Result of " << one << " + " << two << " = " << result << endl;
+  result = one - two;
+  cout << "Result of " << one << " - " << two << " = " << result << endl;
+  result = one * two;
+  cout << "Result of " << one << " * " << two << " = " << result << endl;
+  result = one / two;
+  cout << "Result of " << one << " / " << two << " = " << result << endl;
+  
+  result = one + three;
+  cout << "Result of " << one << " + " << three << " = " << result << endl;
+  result = one - three;
+  cout << "Result of " << one << " - " << three << " = " << result << endl;
+  result = one * three;
+  cout << "Result of " << one << " * " << three << " = " << result << endl;
+  result = one / three;
+  cout << "Result of " << one << " / " << three << " = " << result << endl;
+  
+  result = three + two;
+  cout << "Result of " << three << " + " << two << " = " << result << endl;
+  result = three - two;
+  cout << "Result of " << three << " - " << two << " = " << result << endl;
+  result = three * two;
+  cout << "Result of " << three << " * " << two << " = " << result << endl;
+  result = three / two;
+  cout << "Result of " << three << " / " << two << " = " << result << endl;
 
   return 0;
 }
 
 
-/*    OUTPUT: const4.cpp
+/*    OUTPUT: assignment7oconnell.cpp
 
-  Result of (2 + 3i) + (2 + 3i) = (4 + 6i)
-  Result of (2 + 3i) - (2 + 3i) = (0 + 0i)
+  Type the real part of your number
+  1
+  Type the imaginary part of your number
+  2
+  Type the real part of your number
+  3
+  Type the imaginary part of your number
+  4
+  Give me a number
+  5
+  Result of (1 + 2i) + (3 + 4i) = (4 + 6i)
+  Result of (1 + 2i) - (3 + 4i) = (-2 + -2i)
+  Result of (1 + 2i) * (3 + 4i) = (-5 + 10i)
+  Result of (1 + 2i) / (3 + 4i) = (0.44 + 0.4i)
+  Result of (1 + 2i) + 5 = (6 + 2i)
+  Result of (1 + 2i) - 5 = (-4 + 2i)
+  Result of (1 + 2i) * 5 = (5 + 10i)
+  Result of (1 + 2i) / 5 = (0.2 + 0.4i)
+  Result of 5 + (3 + 4i) = (8 + 4i)
+  Result of 5 - (3 + 4i) = (2 + -4i)
+  Result of 5 * (3 + 4i) = (15 + 20i)
+  Result of 5 / (3 + 4i) = (0.6 + -0.8i)
 
 */
